@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import { api } from '@/lib/api';
 import type { EstadoMicro, Linea, Micro, MicroInput, Usuario } from '@/lib/types';
 
@@ -24,7 +25,6 @@ export default function Home() {
   const [password, setPassword] = useState('');
   const [errorLogin, setErrorLogin] = useState('');
   const [procesandoLogin, setProcesandoLogin] = useState(false);
-
 
   const cargar = useCallback(async () => {
     setCargando(true);
@@ -69,7 +69,6 @@ export default function Home() {
       cancelar();
     } catch (e) { setError(e instanceof Error ? e.message : 'No fue posible cerrar sesión'); }
   }
-
 
   const microsFiltrados = useMemo(() => micros.filter((m) => {
     const coincideLinea = filtro === 'todas' || m.lineaId === Number(filtro);
@@ -133,7 +132,12 @@ export default function Home() {
       <header className="cabecera">
         <div className="contenedor nav">
           <div className="marca"><span className="simbolo">M</span><div><strong>Micros SCZ</strong><small>Tecnología Web I | Clase 8</small></div></div>
-          <nav><a href="#lineas">Líneas</a><a href="#micros">Micros</a><a href="#acceso">Acceso</a></nav>
+          <nav>
+            <a href="#lineas">Líneas</a>
+            <a href="#micros">Micros</a>
+            <a href="#acceso">Acceso</a>
+            <Link href="/operaciones" style={{ color: '#0f766e', fontWeight: 700 }}>Operaciones</Link>
+          </nav>
         </div>
       </header>
 
@@ -141,8 +145,12 @@ export default function Home() {
         <div className="contenedor">
           <div className="etiqueta">NEXT.JS + NESTJS | API REST</div>
           <h1>Catálogo de líneas de micros <span>de Santa Cruz</span></h1>
-          <p>Explora líneas de demostración y administra micros mediante un CRUD conectado a NestJS.</p>
-          <div className="heroacciones"><a className="boton principal" href="#lineas">Explorar líneas</a><a className="boton claro" href="#acceso">Acceso administrativo</a></div>
+          <p>Explora líneas de demostración, administra micros mediante CRUD y gestiona abordajes, tarifas, aforo y trasbordos.</p>
+          <div className="heroacciones">
+            <a className="boton principal" href="#lineas">Explorar líneas</a>
+            <Link className="boton claro" href="/operaciones">Operaciones y Tarifas</Link>
+            <a className="boton secundario" href="#acceso">Acceso administrativo</a>
+          </div>
           <p className="advertencia">Los nombres y recorridos son ficticios; no representan información oficial de transporte.</p>
         </div>
       </section>
